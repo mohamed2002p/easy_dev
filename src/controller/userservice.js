@@ -1,41 +1,27 @@
 const UserModel = require("../model/user");
-const jwt = require("jsonwebtoken");
-
 class UserServices{
  
-    static async registerUser(userName,email,password,){
+    static async registerUser(userName,password,){
         try{
-                const createUser = new UserModel({userName,email,password});
+                const createUser = new UserModel({userName,password});
                 return await createUser.save();
         }catch(err){
             throw err;
         }
     }
-
-    static async getUserByEmail(email){
-        try{
-            return await UserModel.findOne({email});
-        }catch(err){
-            console.log(err);
-        }
-    }
-
-    static async checkUseremail(email){
-        try {
-            return await UserModel.findOne({email});
-        } catch (error) {
-            throw error;
-        }
-    }
     static async checkUsername(userName){
         try {
-            return await UserModel.findOne(userName);
+            return await UserModel.findOne({userName});
         } catch (error) {
             throw error;
         }
     }
-    static async generateAccessToken(tokenData,JWTSecret_Key,JWT_EXPIRE){
-        return jwt.sign(tokenData, JWTSecret_Key, { expiresIn: JWT_EXPIRE });
+    static async checkUserid(id){
+        try {
+            return await UserModel.findOne({id});
+        } catch (error) {
+            throw error;
+        }
     }
     static async getUserdata(id){
         try {         
@@ -45,14 +31,14 @@ class UserServices{
             throw err;
         }
     }
-        static async getallusers({users}){
-            try{
-          return await UserModel.find({users});
-            }
-            catch(error){
-                throw error;
-            }
+    static async getUserbyusername(userName){
+        try {         
+            return await UserModel.findOne({userName});
+        } 
+         catch (err) {
+            throw err;
         }
+    }
         static async updateuser(user){
         try{
             const res = await UserModel.updateOne(user);
@@ -72,8 +58,16 @@ class UserServices{
             throw error;
             }
         }
-        static async deleteUser(id){
-            return await UserModel.deleteOne(id);
+        static async deleteUser(userName){
+            return await UserModel.deleteOne({userName});
         }
-    }
+        static getallusers(){
+            try{
+            return  UserModel.find({});
+        }catch(err){
+        throw err
+        }
+       }
+}
+
 module.exports = UserServices;

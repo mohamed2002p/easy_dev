@@ -1,10 +1,24 @@
-const app = require("./app");
-const db = require('./src/config/db');
-const dotenv=require('dotenv');
-
-dotenv.config({ path: './config.env' });
+const express = require('express');
+const path = require('path');
+const app = express();
+const bodyParser = require("body-parser")
+const User = require("./src/route/userRoute");
+const cors = require('cors'); // Import the cors middleware
+app.use(bodyParser.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'src/asset')));
 const port = 4000;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.listen(port,'192.168.1.107',() => {
-    console.log(`Server running on port ${port}`);
-  });
+// Serve your application at the root URL
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/asset/home.html'));
+});
+
+
+app.use("/",User);
+ 
+app.listen(port, '192.168.1.115', () => {
+  console.log(`Server running on port ${port}`);
+});

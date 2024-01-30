@@ -6,36 +6,12 @@ const userSchema = new mongoose.Schema({
     type : String,
     required :true,
     unique :true,
-    } ,
-     email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-    // @ts-ignore
-    match: [
-        /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
-        "userName format is not correct",
-      ]
     },
     password: {
       type: String,
       required: true
     },
-        inputs: [{
-        title: {
-          type: String,
-          required: true,
-        },
-        description: {
-          type: String,
-          required: true,
-        },
-        image: {
-          type: String,
-          required: true
-        }
-     }]
+    image : [String]
 });
 // used while encrypting user entered password
 userSchema.pre("save",async function(){
@@ -52,8 +28,6 @@ userSchema.pre("save",async function(){
       throw err;
   }
 });
-
-
 //used while signIn decrypt
 userSchema.methods.comparePassword = async function (candidatePassword) {
   try {

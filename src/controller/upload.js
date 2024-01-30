@@ -1,9 +1,11 @@
 const multer = require('multer');
 const sharp = require('sharp');
+const fs = require('fs').promises; // Using promises version
 const User = require('../model/user');
-
-const upload = multer({
-    array: 'avatars',
+class avatar{
+static upload = multer({
+    field : "avatar",
+    storage: multer.memoryStorage(),
     limits: {
         fileSize: 1000000 // 1 MB
     },
@@ -11,47 +13,45 @@ const upload = multer({
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
             return cb(new Error('Please upload a jpg, jpeg, or png image file'));
         }
-        cb(undefined, true);
+        cb(null, true);
     }
 });
 
-const resize = async (req, res, next) => {
-    if (!req.file) {
-        return next();
-    }
+ static resizeAndSave = async (file, userId, index) => {
+    const imageBuffer = file.buffer;
+    const filename = `user-${userId || 'unknown'}-${Date.now()}-${index}.png`;
 
-    req.file.filename = `user-${req.user.id}-${Date.now()}.png`;
+    const destinationDir = './public/upload';
+    await fs.mkdir(destinationDir, { recursive: true });
 
-    await sharp(req.file.path)
-        .resize({ width: 250, height: 250 })
+    await sharp(imageBuffer)
+        .resize({ width: 1000, height: 1000 })
         .toFormat('png')
-        .jpeg({ quality: 90 })
-        .toFile(req.file.destination + '/' + req.file.filename);
+        .jpeg({ quality: 100 })
+        .toFile(`${destinationDir}/${filename}`);
 
-    fs.unlinkSync(req.file.path);
-
-    next();
+    return filename;
 };
 
-const saveAvatar = async (req, res, next) => {
-    if (!req.file) {
-        return next();
-    }
-
-    const user = await User.findByIdAndUpdate(req.user.id, { avatar: req.file.filename }, { new: true });
+ static resizeMultiple = async (files, userId) => {
+    const promises = files.map(async (file, index) => {
+        return await this.resizeAndSave(file, userId, index);
+    });
+    return Promise.all(promises);
+};
+    
+ static saveAvatar = async (userName, filenames) => {
+    const user = await User.findOneAndUpdate(
+        { userName : userName },
+        { $push: { image: { $each: filenames } } },
+        { new: true }
+    );
 
     if (!user) {
-        return next(new Error('User not found'));
+        throw new Error('User not found');
     }
 
-    req.user = user;
-    next();
+    return user;
 };
-
-const uploadAvatar = [
-    upload.array('avatar'),
-    resize,
-    saveAvatar
-];
-
-module.exports = uploadAvatar;
+}
+module.exports = avatar;
