@@ -1,9 +1,9 @@
-const UserModel = require("../model/user");
+const userSchema = require("../model/user");
 class UserServices{
  
     static async registerUser(userName,password,){
         try{
-                const createUser = new UserModel({userName,email,password});
+                const createUser = new userSchema({userName,password});
                 return await createUser.save();
         }catch(err){
             throw err;
@@ -11,21 +11,21 @@ class UserServices{
     }
     static async checkUsername(userName){
         try {
-            return await UserModel.findOne({userName});
+            return await userSchema.findOne({userName});
         } catch (error) {
             throw error;
         }
     }
     static async checkUserid(id){
         try {
-            return await UserModel.findOne({id});
+            return await userSchema.findOne({id});
         } catch (error) {
             throw error;
         }
     }
     static async getUserdata(id){
         try {         
-            return await UserModel.findById(id);
+            return await userSchema.findById(id);
         } 
          catch (err) {
             throw err;
@@ -33,7 +33,7 @@ class UserServices{
     }
     static async getUserbyusername(userName){
         try {         
-            return await UserModel.findOne({userName});
+            return await userSchema.findOne({userName});
         } 
          catch (err) {
             throw err;
@@ -41,7 +41,7 @@ class UserServices{
     }
         static async updateuser(user){
         try{
-            const res = await UserModel.updateOne(user);
+            const res = await userSchema.updateOne(user);
         return res;
         }
         catch(error){
@@ -50,7 +50,7 @@ class UserServices{
         }
         static async updateuserpass(id,password){
             try{
-                const user = await UserModel.findOne(id).select('password');
+                const user = await userSchema.findOne(id).select('password');
                 user.password = password;
                 await user.save();
             }
@@ -59,27 +59,11 @@ class UserServices{
             }
         }
         static async deleteUser(userName){
-            return await UserModel.deleteOne({userName});
+            return await userSchema.deleteOne({userName});
         }
-        static async addContent(userName,title,description){
-            // Push the new data to the arrays
-            try{
-            let update = {
-               $push: {
-                 title: title,
-                 description: description,
-               }
-            };  
-            // Find the document with the given userName and update it
-            await UserModel.findOneAndUpdate({ userName: userName }, update);
-           }
-           catch(e){
-            throw e;
-           }
-    }
         static getallusers(){
             try{
-            return  UserModel.find({});
+            return  userSchema.find({});
         }catch(err){
         throw err
         }

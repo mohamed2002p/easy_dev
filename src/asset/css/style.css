@@ -269,6 +269,55 @@ header button:hover {
   cursor: pointer;
 }
 
+/* Start the Crop Modal */
+#imageCrop {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+#imageCrop .content {
+  margin: 30px auto;
+  background-color: white;
+  width: fit-content;
+  min-width: 500px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#imageCrop #cropImageBtn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: black;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  border: 3px solid chartreuse;
+  cursor: pointer;
+}
+
+#imageCrop #cancelBtn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: red;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  border: 3px solid black;
+  cursor: pointer;
+}
+
+/* End the Crop Modal */
+
 /* Start Gallary Section */
 
 #gallery {
@@ -335,6 +384,9 @@ header button:hover {
   height: 300px;
   transition: var(--main-transition);
   object-fit: cover;
+}
+#gallery .box .box-img {
+  cursor: pointer;
 }
 
 #gallery .box img:hover {
@@ -439,3 +491,23 @@ footer .social .gmail:hover {
 }
 
 /* End footer */
+
+.imagePreview,
+canvas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: 2px solid #352e79;
+  border-radius: 20px;
+  height: 70%;
+  width: 90%;
+  cursor: pointer;
+  margin-left: 2%;
+}
+
+.imagePreview img {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+}

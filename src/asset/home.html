@@ -1,156 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy</title>
-  <link rel="stylesheet" href="css/all.min.css" />
-  <link rel="stylesheet" href="css/normalize.css" />
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/main.js" defer></script>
-</head>
-<body>
-  <!-- Start Header -->
-  <div class="nav-bar">
-    <div class="container">
-      <a href="#" class="logo">Easy</a>
-      <ul class="main-nav">
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a>User Name</a></li>
-      </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easy</title>
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Workbench&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Start Header -->
+    <div class="nav-bar">
+      <div class="container">
+        <a href="#" class="logo">Easy</a>
+        <ul class="main-nav">
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a>User Name</a></li>
+          <li><a id="logout" href="#">Log Out</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-  <header>
-    <div class="overlay">
-      <h1 class="main-title">Welcome to Easy</h1>
-      <h3>Reasons for Choosing US</h3>
-      <p>
-        نسعي لتحقيق التميز في عالم التصميم و التطوير نعتبر ان كل مشروع فرصة
-        لبناء شراكة مستدامة مع عملاءنا حيث نجمع الاستماع الجيد والتحليل الدقيق
-        لضمان تلبية توقعاتهم وتحقيق رؤيتهم بكفاءة
-      </p>
-      <br />
-      <a href="#gallery"><button>Start</button></a>
+    <header>
+      <div class="overlay">
+        <h1 class="main-title">Welcome to Easy</h1>
+        <h3>Reasons for Choosing US</h3>
+        <p>
+          نسعي لتحقيق التميز في عالم التصميم و التطوير نعتبر ان كل مشروع فرصة
+          لبناء شراكة مستدامة مع عملاءنا حيث نجمع الاستماع الجيد والتحليل الدقيق
+          لضمان تلبية توقعاتهم وتحقيق رؤيتهم بكفاءة
+        </p>
+        <br />
+        <a href="#gallery"><button>Start</button></a>
+      </div>
+    </header>
+    <!-- End Header -->
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1 style="text-align: center; margin: 30px auto 50px">
+          Upload Your Information
+        </h1>
+        <form id="uploadForm">
+          <input
+            class="editInput"
+            type="text"
+            id="title"
+            name="txt"
+            placeholder="title"
+            required=""
+          />
+          <textarea
+            class="editInput"
+            name="Desc"
+            id="description"
+            placeholder="Descreption"
+            required=""
+          ></textarea>
+          <input
+            class="editInput"
+            type="tel"
+            id="phone"
+            name="txt"
+            placeholder="phone"
+            required=""
+          />
+          <div class="imagePreview">
+            <input type="file" accept="image/*" hidden />
+            <img src="images/upload-icon.svg" alt="" srcset="" />
+          </div>
+          <button id="downloadButton" disabled>Download Resized Image</button>
+          <button type="submit">Save</button>
+        </form>
+      </div>
     </div>
-  </header>
-  <!-- End Header -->
-  <!-- The Modal -->
-  <div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h1 style="text-align: center; margin: 30px auto 50px">
-        Upload Your Information
-      </h1>
-      <form id="uploadForm">
-        <input
-          class="editInput"
-          type="text"
-          name="txt"
-          placeholder="title"
-          required=""
-        />
-        <textarea
-          class="editInput"
-          name="Desc"
-          placeholder="Descreption"
-          required=""
-        ></textarea>
-        <input
-          type="file"
-          style="cursor: pointer"
-          class="editInput"
-          id="imageUpload"
-          name="image"
-          accept="image/*"
-        />
-        <button type="button">Save</button>
-      </form>
+    <!-- End Form Modal -->
+    <!-- Start Image Editing -->
+    <div id="imageCrop">
+      <div class="content">
+        <img id="croppedImage" src="images/avatar-03.png" alt="" />
+        <div style="display: flex; justify-content: space-around">
+          <button id="cropImageBtn">Crop</button>
+          <button id="cancelBtn">Cancel</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-    <path
-      fill="#f0f8ff"
-      fill-opacity="1"
-      d="M0,224L34.3,229.3C68.6,235,137,245,206,240C274.3,235,343,213,411,197.3C480,181,549,171,617,165.3C685.7,160,754,160,823,186.7C891.4,213,960,267,1029,272C1097.1,277,1166,235,1234,224C1302.9,213,1371,235,1406,245.3L1440,256L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"
-    ></path>
-  </svg>
-  <div id="gallery">
-    <h1>Gallery</h1>
-    <div class="container">
-      <a id="createBtn" onclick="createBox()">Create </a>
-      <!-- Existing boxes go here -->
+    <!-- End Image Editing -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path
+        fill="#f0f8ff"
+        fill-opacity="1"
+        d="M0,224L34.3,229.3C68.6,235,137,245,206,240C274.3,235,343,213,411,197.3C480,181,549,171,617,165.3C685.7,160,754,160,823,186.7C891.4,213,960,267,1029,272C1097.1,277,1166,235,1234,224C1302.9,213,1371,235,1406,245.3L1440,256L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"
+      ></path>
+    </svg>
+    <!-- Start the Gallery Section -->
+    <div id="gallery">
+      <h1>Gallery</h1>
+      <div class="container">
+        <a id="createBtn">Create </a>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img"><img src="images/avatar-01.png" alt="" /></div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img"><img src="images/avatar-03.png" alt="" /></div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img"><img src="images/cat-02.jpg" alt="" /></div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img">
+            <img src="images/discount-background1.jpg" alt="" />
+          </div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img"><img src="images/discount.png" alt="" /></div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img">
+            <img src="images/video-preview.jpg" alt="" />
+          </div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img"><img src="images/team-08.jpg" alt="" /></div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <!-- this button just for the Admin -->
+          <a class="editBtn">Edit</a>
+          <div class="box-img"><img src="images/team-05.png" alt="" /></div>
+          <div class="content">
+            <h3>هذه قطعة ارض للبيع</h3>
+            <p>
+              هذه قطعة ارض للبيع تحتوي علي 20 متؤ وخمسب سنتمسنشى ى تنسىنسى سنتىن
+              سنىىسش شنىنسى شتنحضحضضقع تنبهع بعه ىىيهى نى ىي هى نيىعيتيعه
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <footer>
-    <h1 style="letter-spacing: 5px">Easy</h1>
-    <div id="contact">
-      <ul class="social">
-        <li>
-          <a href="#" class="facebook"> Facebook </a>
-        </li>
-        <li>
-          <a href="https://mail.google.com/" target="_blank" class="gmail">
-            Gmail
-          </a>
-        </li>
-        <li><span>Phone: </span>01066666666</li>
-      </ul>
-    </div>
-  </footer>
- <!-- Add this script section at the end of your body -->
-<script>
-  function createBox() {
-    const container = document.querySelector('.container');
+    <footer>
+      <h1 style="letter-spacing: 5px">Easy</h1>
+      <div id="contact">
+        <ul class="social">
+          <li>
+            <a href="#" class="facebook"> Facebook </a>
+          </li>
+          <li>
+            <a href="https://mail.google.com/" target="_blank" class="gmail">
+              Gmail
+            </a>
+          </li>
+          <li><span>Phone: </span>01066666666</li>
+        </ul>
+      </div>
+    </footer>
 
-    // Create new elements
-    const newBox = document.createElement('div');
-    newBox.classList.add('box');
+    <!-- <script src="/node_modules/cropperjs/dist/cropper.min.js"></script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const logoutButton = document.getElementById("logout");
 
-    const newContent = document.createElement('div');
-    newContent.classList.add('content');
+        logoutButton.addEventListener("click", function () {
+          // Clear user authentication data (for demonstration using localStorage)
+          localStorage.removeItem("user");
 
-    // Append elements to the container
-    newBox.appendChild(newContent);
-    container.appendChild(newBox);
+          // Replace the current URL in the history without adding a new entry
+          history.replaceState(null, "", "index.html"); // Change 'index.html' to your actual login page
 
-    // Add your content inside the new box, you can customize this part
-    newContent.innerHTML = `
-      <h3>New Box Title</h3>
-      <p>This is a new box created dynamically.</p>
-    `;
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    // Assuming you have a form with the id "uploadForm"
-    const uploadForm = document.getElementById('uploadForm');
-
-    uploadForm.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      // Get form data
-      const formData = new FormData(uploadForm);
-      const url = 'http://192.168.1.112:4000/addContent';
-      // Fetch API POST request
-      fetch(url, {
-        method: 'POST',
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Success:', data);
-          // Handle success, if needed
-
-          // Clear the form or do any additional actions after saving
-          uploadForm.reset();
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          // Handle error, if needed
+          // Reload the page
+          window.location.reload();
         });
-    });
-  });
-</script>
-</body>
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const uploadForm = document.getElementById("uploadForm");
+
+        // Add an event listener to the form for submission
+        uploadForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const formData = new FormData();
+          // Assuming you have input fields for userName, title, and description
+          formData.append("userName", "eslam");
+          formData.append("title", document.getElementById("title").value);
+          formData.append(
+            "description",
+            document.getElementById("description").value
+          );
+
+          // Assuming the key for the image is 'avatar'
+          formData.append(
+            "avatar",
+            document.getElementById("imageUpload").files[0]
+          );
+
+          // Call the function to perform the fetch API call
+          saveFormData("/content", formData);
+        });
+      });
+
+      // Function to perform the fetch API call
+      async function saveFormData(endpoint, formData) {
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              `Network response was not ok: ${response.status} ${response.statusText}`
+            );
+          }
+
+          const data = await response.json();
+
+          // Handle success
+          console.log(data);
+          // You can redirect or perform any other actions after successful upload
+        } catch (error) {
+          // Handle error
+          console.error("Error:", error.message);
+        }
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
+    <script type="module" src="js/userData.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>

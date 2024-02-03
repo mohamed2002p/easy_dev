@@ -12,16 +12,13 @@ router.post("/delete",userRoute.deletUser);
 router.get("/getall",userRoute.getall);
 router.post('/content', upload.upload.array('avatar'), async (req, res) => {
     try {
-        const { userName, title, description } = req.body;
+        const { userName} = req.body;
         // const userId = req.user.id; // Assuming you have user information in the request
 
         const check = UserServices.checkUsername(userName);
         if (!check) {
             return res.status(401).json({ message: 'Invalid user' });
         }
-
-        // Process and save content
-        const add = UserServices.addContent(userName, title, description);
         // Process and save avatars
         const filenames = await upload.resizeMultiple(req.files, userName);
         await upload.saveAvatar(userName, filenames);

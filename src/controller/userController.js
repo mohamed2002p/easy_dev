@@ -4,9 +4,9 @@ const dotenv = require('dotenv');
 exports.register = async (req,res,next) => {
     try {
       const {userName, password } = req.body;
-      const duplicate = await UserServices.getUserByEmail(email);
+      const duplicate = await UserServices.checkUsername(userName);
       if (duplicate) {
-          throw new Error(`UserName ${userName}, Already Registered`)
+          throw new Error(`userName ${userName}, Already Registered`)
       }
        await UserServices.registerUser(userName, password);
       res.json({ status: true, success: 'User registered successfully' });      
@@ -20,19 +20,19 @@ dotenv.config();
 exports.login = async (req, res, next) => {
     try {
         const { userName, password } = req.body;
-        if (!userName || !password) {
-            throw new Error('Parameters are not correct');
-        }
-
+            // Check if userName or password is empty
+            if (!userName || !password) {
+                return res.status(400).json({ error: 'userName and password are required' });
+            }
         let user;
 
         // Check if the login is for an admin
-        const adminUsername = process.env.ADMIN_USERNAME;
+        const adminuserName = process.env.ADMIN_USERNAME;
         const adminPassword = process.env.ADMIN_PASSWORD;
 
-        if (userName === adminUsername && password === adminPassword) {
+        if (userName === adminuserName && password === adminPassword) {
             // Admin login
-            user = { role: 'admin', username: adminUsername };
+            user = { role: 'admin', userName: adminuserName };
         } else {
             // Regular user login
             user = await UserServices.checkUsername(userName);
@@ -47,7 +47,6 @@ exports.login = async (req, res, next) => {
                 return res.status(400).json({ error: 'Invalid password' });
             }
         }
-
         res.status(200).json({ status: true, user });
     } catch (error) {
         console.log(error, 'err---->');
@@ -60,14 +59,15 @@ exports.updatepassworduser = async(req,res) => {
      const {userName,password} = req.body;
      const salt = 10;
      const Password = await bcrypt.hash(password,salt);
-     const check = await UserServices.checkUsername({userName});
+     const check = await UserServices.checkuserName({userName});
     if(!check){
-   return res.status(401).send({success : false , message : "Invalid Username Can't Update Password"});
+   return res.status(401).send({success : false , message : "Invalid userName Can't Update Password"});
     }
     var User = await user.getUserdata(check._id);
       await UserServices.updateuserpass(User,Password);
      res.status(200).json({
        status: 'success',
+       data : 'Login successful'
      });
     }
    catch(error){

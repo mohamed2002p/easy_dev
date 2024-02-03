@@ -1,6 +1,6 @@
 const   mongoose  = require("mongoose");
 const bcrypt = require('bcrypt');
-const db = require('../config/db');
+const dbconn = require("../config/db");
 const userSchema = new mongoose.Schema({
     userName: {
     type : String,
@@ -10,14 +10,6 @@ const userSchema = new mongoose.Schema({
     password: {
       type: String,
       required: true
-    },
-    title : {
-      type : [String],
-      length: 10,
-    },
-    description : {
-      type : [String],
-      length: 10,
     },
     image : [String]
 });
@@ -45,5 +37,4 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
       throw error;
   }
 };
-
-module.exports  = db.model('user', userSchema);
+module.exports  = mongoose.model('user', userSchema);

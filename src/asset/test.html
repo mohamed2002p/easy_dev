@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Resizer</title>
+    <style>
+      #output {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image Resizer</h1>
+    <input type="file" id="imageInput" accept="image/*" required />
+    <button onclick="resizeImage()">Resize</button>
+    <div id="output"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pica/5.0.0/pica.min.js"></script>
+    <script>
+      function resizeImage() {
+        const input = document.getElementById("imageInput");
+        const outputDiv = document.getElementById("output");
+
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+              // Set the new dimensions
+              const newWidth = 300;
+              const newHeight = 200;
+
+              // Use pica for high-quality image resizing
+              pica
+                .resize(img, document.createElement("canvas"), {
+                  unsharpAmount: 80,
+                  unsharpRadius: 0.6,
+                  unsharpThreshold: 2,
+                })
+                .then((result) => {
+                  // Get the resized image as a data URL
+                  const resizedDataURL = result.dataUrl;
+
+                  // Display the resized image
+                  outputDiv.innerHTML = `<img src="${resizedDataURL}" alt="Resized Image">`;
+                });
+            };
+          };
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
+  </body>
+</html>
