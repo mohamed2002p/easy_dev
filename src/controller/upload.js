@@ -1,5 +1,5 @@
 const multer = require('multer');
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const fs = require('fs').promises; // Using promises version
 const User = require('../model/user');
 class avatar{
@@ -24,14 +24,14 @@ static upload = multer({
     const destinationDir = './public/upload';
     await fs.mkdir(destinationDir, { recursive: true });
 
-    await sharp(imageBuffer)
-        .resize({ width: 1000, height: 1000 })
-        .toFormat('png')
-        .jpeg({ quality: 100 })
-        .toFile(`${destinationDir}/${filename}`);
+//     await sharp(imageBuffer)
+//         .resize({ width: 1000, height: 1000 })
+//         .toFormat('png')
+//         .jpeg({ quality: 100 })
+//         .toFile(`${destinationDir}/${filename}`);
 
-    return filename;
-};
+//     return filename;
+ };
 
  static resizeMultiple = async (files, userId) => {
     const promises = files.map(async (file, index) => {
