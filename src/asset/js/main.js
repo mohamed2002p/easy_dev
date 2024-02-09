@@ -1,5 +1,4 @@
-import { Gallery } from "./userData";
-console.log(Gallery);
+
 // Function to handle image input change
 function handleImageInputChange(e) {
   const file = e.target.files[0];

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: cursive;
+      }
+      body {
+        width: 100%;
+        background: linear-gradient(#90a2dc, #eee);
+        position: relative;
+        background-repeat: no-repeat;
+        height: 100%;
+      }
+      #dashboard {
+        margin: 50px;
+        height: 30%;
+        display: flex;
+      }
+      .image {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+        height: 300px;
+        width: 45%;
+        background: white;
+        padding: 5px;
+        border-radius: 20px;
+      }
+      .image img {
+        object-fit: cover;
+        border-radius: 10px;
+      }
+      #users {
+        margin: 50px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .editable {
+        cursor: pointer;
+        padding: 5px;
+        display: inline-block;
+        border-radius: 5px;
+        width: 100%;
+      }
+      .edit-input {
+        display: none;
+        padding: 8px;
+        width: 100%;
+        background: transparent;
+        border-radius: 10px;
+        outline-color: #b9c8fc;
+        outline-width: 1px;
+      }
+      table button {
+        background-color: #f4f1fc;
+        font-size: 25px;
+        padding: 10px;
+        border-radius: 25px 10px;
+        cursor: pointer;
+      }
+      #users {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+      }
+      #users h2 {
+        font-size: 50px;
+        color: #453484;
+      }
+      .addingUser {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+        align-items: center;
+      }
+      .addingUser h2 {
+        font-size: 50px;
+        color: #453484;
+      }
+      .addingUser form label {
+        font-size: 25px;
+        margin-left: 20px;
+      }
+      .addingUser form input {
+        height: 40px;
+        padding: 5px;
+        border-radius: 15px;
+      }
+      .addingUser input[type="button"] {
+        margin: 50px;
+        font-size: 20px;
+        padding: 5px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="addingUser">
+      <h2>ADD USER</h2>
+      <form action="post">
+        <label for="userName">user name</label>
+        <input type="text" id="userName" placeholder="user name" />
+        <label for="password">password</label>
+        <input type="text" id="password" placeholder="password" />
+        <div style="display: flex; justify-content: center">
+          <input type="button" id="addUSer" value="add user" />
+        </div>
+      </form>
+    </section>
+    <section id="dashboard">
+      <div class="image">
+        <img src="images/upload-icon.svg" alt="" srcset="" />
+        <input type="file" accept="image/*" hidden />
+      </div>
+      <div class="image">
+        <img src="images/upload-icon.svg" alt="" srcset="" />
+        <input type="file" accept="image/*" hidden />
+      </div>
+    </section>
+    <section id="users">
+      <h2>USERS</h2>
+      <table id="data-table">
+        <tr>
+          <th>NAME</th>
+          <th>PASSWORD</th>
+        </tr>
+      </table>
+    </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".image");
+        const imageInputs = document.querySelectorAll(".image input");
+        const imageArray = [];
+
+        images.forEach((image, index) => {
+          const input = imageInputs[index];
+          const imgElement = image.querySelector("img");
+
+          // Initialize the array with null values
+          imageArray[index] = null;
+
+          image.addEventListener("click", function () {
+            input.click();
+          });
+
+          input.addEventListener("change", function () {
+            const selectedImage = input.files[0];
+
+            if (selectedImage) {
+              // Update the array with the selected image
+              imageArray[index] = selectedImage;
+
+              // Update the img element src attribute to display the selected image
+              imgElement.src = URL.createObjectURL(selectedImage);
+
+              // Log the updated array
+              console.log("Updated Array:", imageArray);
+
+              // Perform any additional logic or display for the selected image
+              console.log(`Image ${index + 1} selected: ${selectedImage.name}`);
+            } else {
+              // If the user clears the selection, update the array with null
+              imageArray[index] = null;
+
+              // Reset the img element to the default icon
+              imgElement.src = "images/upload-icon.svg";
+
+              // Log the updated array
+              console.log("Updated Array:", imageArray);
+            }
+          });
+        });
+
+        const databaseData = [
+          { name: "User1", password: "pass1" },
+          { name: "User2", password: "pass2" },
+          // Add more data as needed
+        ];
+
+        const dataTable = document.getElementById("data-table");
+
+        // Loop through the database data and populate the table
+        databaseData.forEach((data, index) => {
+          const row = dataTable.insertRow();
+
+          // Add cells to the row
+          const nameCell = row.insertCell(0);
+          const passwordCell = row.insertCell(1);
+          // Populate cells with data
+          nameCell.innerHTML = `<a href="user.html">${data.name}</a>`;
+          passwordCell.innerHTML = `<span">${data.password}</span>`;
+        });
+      });
+
+      function saveEdit(saveButton, rowIndex) {
+        const row = saveButton.parentNode.parentNode;
+        const nameCell = row.cells[0];
+        const passwordCell = row.cells[1];
+
+        const editableSpanName = nameCell.querySelector(".editable");
+        const inputFieldName = nameCell.querySelector(".edit-input");
+        editableSpanName.textContent = inputFieldName.value;
+        editableSpanName.style.display = "inline-block";
+        inputFieldName.style.display = "none";
+
+        const editableSpanPassword = passwordCell.querySelector(".editable");
+        const inputFieldPassword = passwordCell.querySelector(".edit-input");
+        editableSpanPassword.textContent = inputFieldPassword.value;
+        editableSpanPassword.style.display = "inline-block";
+        inputFieldPassword.style.display = "none";
+
+        // Update the data in the object and database
+        const updatedData = {
+          name: inputFieldName.value,
+          password: inputFieldPassword.value,
+        };
+
+        // Replace the old data with the updated data
+        databaseData[rowIndex] = updatedData;
+
+        // Perform additional logic for updating the database
+        console.log("Updated Database:", databaseData);
+      }
+
+      // function deleteFunction(rowIndex) {
+      //   const dataTable = document.getElementById("data-table");
+      //   dataTable.deleteRow(rowIndex + 1); // Add 1 to account for the header row
+
+      //   // Remove the corresponding data from the array
+      //   databaseData.splice(rowIndex, 1);
+
+      //   // Perform additional logic for updating the database
+      //   console.log("Updated Database:", databaseData);
+      // }
+      document.querySelector("#addUSer").addEventListener("click", () => {
+        let name = document.querySelector("#userName").value;
+        let pass = document.querySelector("#password").value;
+        //perform adding data to database
+      });
+    </script>
+    <script>
+      // Function to fetch templates from the server
+      async function fetchTemplates() {
+        try {
+          const response = await fetch('/templates');
+          if (!response.ok) {
+            throw new Error('Failed to fetch templates');
+          }
+          const templates = await response.json();
+          displayTemplates(templates);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+  
+      // Function to display templates on the client-side
+      function displayTemplates(templates) {
+        const templatesContainer = document.getElementById('templates-container');
+        templatesContainer.innerHTML = '';
+  
+        templates.forEach(template => {
+          const templateElement = document.createElement('div');
+          templateElement.innerHTML = `
+            <div>
+              <h3>${template.name}</h3>
+              <img src="${template.file}" alt="${template.name}" style="max-width: 200px; max-height: 200px;">
+              <button onclick="deleteTemplate('${template._id}')">Delete</button>
+            </div>
+          `;
+          templatesContainer.appendChild(templateElement);
+        });
+      }
+  
+      // Function to delete a template
+      async function deleteTemplate(templateId) {
+        try {
+          const response = await fetch(`/template/${templateId}`, { method: 'DELETE' });
+          if (!response.ok) {
+            throw new Error('Failed to delete template');
+          }
+          // Refresh templates after deletion
+          fetchTemplates();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+  
+      // Fetch templates when the page loads
+      fetchTemplates();
+    </script>
+  </body>
+</html>

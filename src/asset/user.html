@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: cursive;
+      }
+      body {
+        width: 100%;
+        background: url("images/1000_F_162977149_9E4pohNXbSxjPuTZ138rNsHAqkZDdGac.jpg");
+        position: relative;
+        background-repeat: no-repeat;
+        height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+      }
+      .user {
+        height: 100%;
+        width: 90%;
+        margin: auto;
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(3px);
+        display: flex;
+        flex-direction: column;
+      }
+      .edit {
+        margin: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+      }
+      .edit input {
+        height: 40px;
+        width: 90%;
+        background: transparent;
+        border: 2px solid white;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-left: 10px;
+        border-radius: 10px;
+        color: white;
+      }
+      .edit button {
+        margin-bottom: 20px;
+        padding: 10px 30px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-size: 20px;
+        border: 1px solid white;
+        border-radius: 15px;
+      }
+      .gallery-container {
+        flex-grow: 1; /* Allow the container to take remaining space */
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .gallery {
+        /* Style your gallery here */
+        color: white;
+        margin: 20px;
+        display: flex;
+        grid-gap: 20px;
+        justify-items: center; /* Center align items horizontally */
+        align-items: center; /* Center align items vertically */
+        text-align: center; /* Center align text */
+      }
+      .gallery-container h2 {
+        color: #fff;
+        font-size: 50px;
+        margin: 20px auto; /* Adjust margin for better spacing */
+      }
+      .gallery img {
+        height: auto;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="user">
+      <div class="edit" id="editSection">
+        <h2 style="margin-bottom: 50px">Edit User Data</h2>
+        <div>
+          <label for="userName">User Name</label>
+          <input type="text" placeholder="User Name" class="userName" />
+        </div>
+        <div>
+          <label for="pass">User Password</label>
+          <input type="text" placeholder="Password" class="pass" />
+        </div>
+        <button onclick="updateUserData()">Update User Data</button>
+        <button onclick="removeUserData()">Remove User Data</button>
+      </div>
+      <div class="gallery-container">
+        <h2>user gallery</h2>
+        <section class="gallery" id="gallerySection"></section>
+      </div>
+    </div>
+
+    <script>
+      // Dummy user data
+      let userData = {
+        userName: "JohnDoe",
+        password: "pass123",
+        // Add more properties as needed
+      };
+      const passwordInput = document.querySelector(".pass");
+      const userNameInput = document.querySelector(".userName");
+      userNameInput.value = userData.userName;
+      passwordInput.value = userData.password;
+      // Function to update user data
+      function updateUserData() {
+        // Update user data object
+        userData.userName = userNameInput.value;
+        userData.password = passwordInput.value;
+        // Perform any additional logic, such as sending data to server
+
+        // Log updated user data
+        console.log("Updated User Data:", userData);
+      }
+
+      // Function to remove user data
+      function removeUserData() {
+        const userNameInput = document.querySelector(".userName");
+        const passwordInput = document.querySelector(".pass");
+
+        // Clear input fields
+        userNameInput.value = "";
+        passwordInput.value = "";
+
+        // Reset user data object
+        userData = {};
+
+        // Perform any additional logic, such as removing data from server
+
+        // Log removed user data
+        console.log("Removed User Data");
+      }
+
+      // Function to display user gallery
+      function displayGallery() {
+        const gallerySection = document.getElementById("gallerySection");
+        // Assuming you have image URLs in an array
+        const imageUrls = [
+          "images/avatar-01.png",
+          "images/avatar-02.png",
+          "images/download.png",
+          // Add more image URLs as needed
+        ];
+
+        // Clear previous gallery content
+        gallerySection.innerHTML = "";
+
+        // Append images to the gallery
+        imageUrls.forEach((url) => {
+          const img = document.createElement("img");
+          img.src = url;
+          gallerySection.appendChild(img);
+        });
+      }
+
+      // Call function to display gallery when page loads
+      displayGallery();
+    </script>
+  </body>
+</html>
